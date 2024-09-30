@@ -1,0 +1,2918 @@
+---
+title: "Learning R for biologists"
+output: html_notebook
+editor_options: 
+  markdown: 
+    wrap: 72
+---
+
+------------------------------------------------------------------------
+
+# Module 1
+
+The Book of R: Chapter 1, Appendix B, chapter 2.1, 2.2
+
+------------------------------------------------------------------------
+
+# Commands (or functions)
+
+## Key Programming Concept
+
+------------------------------------------------------------------------
+
+## Commands in R
+
+> print("hello")
+
+-   **print** is the command
+-   **()** tells R that **print** is a command
+-   **"hello"** is the **argument** to the command
+-   These are also called **"functions”**
+
+```{r}
+print("Hello")
+print("Hello World")
+print("Biological Statistics")
+```
+
+```{r}
+cat("hello", "world")
+```
+
+------------------------------------------------------------------------
+
+# Commands in R
+
+-   **Arguments** can be passed flexibly
+
+```{r}
+help(seq)
+```
+
+-   Either follow the prescribed order (ok to omit ones at the end)
+
+```{r}
+seq(1,3,0.2)
+```
+
+-   Specify arguments with "="
+
+```{r}
+seq(1,4,length.out=3)
+```
+
+-   The order is not important if you specify with =
+-   `seq(to=5, from=10)` is the same as `seq(from=10, to=5)`
+
+```{r}
+seq(to=5, from=10)
+seq(from=10, to=5)
+```
+
+------------------------------------------------------------------------
+
+# Variables
+
+## Key Programming Concept
+
+------------------------------------------------------------------------
+
+-   Variables are named places to store values
+
+```{r}
+x = 5
+x
+
+
+```
+
+-   Variable names
+    -   Syntax is key (as in most programming languages)
+    -   Letters, numbers, and the dot and underscore characters, and
+        starts with either a letter or a dot not followed by a number.
+    -   Reserved words (e.g. TRUE, FALSE, NA, Inf, NaN) are not
+        syntactic names
+    -   Some constants are already defined variables e.g. pi
+-   We **declare** variables in R by creating a new variable name
+-   You can use any name you want, as long as you follow the syntax
+    rules
+-   Best practice is to use human readable names to help document your
+    code e.g. use a variable name 'patients' instead of 'x'
+
+> Which of these are valid R variable names?\
+> name= "Tom" -\> VALID myname# = "Alice" -\> INVALID (contains \#)
+> \_str="test" -\> VALID (starts with a letter) DNA="ATTTCA" -\> VALID
+> sequence1="ATTTCA" -\> VALID .seq = "ATTTCA" -\> VALID 1seq="ATTTCA"
+> -\> INVALID (starts with a number)
+> [year\@2008](mailto:year@2008){.email} = 2008 -\> INVALID (contains
+> \@) gen2str = 1 -\> VALID
+
+# Variable assignment and types
+
+-   We assign a value to a variable using the assignment operator
+
+```{r}
+number = 5
+number
+
+#note: the variable value specifies its type, not its name, 'x' can also be a number
+x = 5
+x
+
+number <- 5  #<- is the same as =
+number
+
+string = "five"
+string
+
+number = number +1
+number
+
+logical = TRUE
+logical
+
+logical2 = T  #note: T and TRUE are equivalent (they are both TRUE)
+logical2
+
+logical3 = FALSE
+logical3
+
+logical4 = F  #same with F and FALSE
+logical4
+
+#Reminder: the variable names do not tell you anything about the variable type
+
+number = "string"
+number
+
+#string = string + 1   #why is there an error when you try to run this code? Note: R only figures this out when you try to run the code, not when you're writing it, so you need to be aware of the variable types you're using when you're writing code
+string
+```
+
+-   All programming languages distinguish different variable types.
+    -   Numbers (integers, various non-integers)
+    -   Strings (=text, zero or more text characters)
+    -   Various others (e.g. vectors, matrices – later)
+
+# Variable types
+
+-   Strictly speaking
+    -   Arithmetic operations are only defined for numbers
+    -   String operations are only defined for strings
+-   In practice, R is lenient and converts variables if possible
+
+# Special characters
+
+-   Special characters have special meaning in the language
+    -   `~!@#$%^&*(){}_+:"<>?,./;'[]-=`
+-   " **starts** and **ends** a string
+-   \\ **escapes** a special character e.g. \\"
+-   Within a string:
+    -   \\n = newline
+    -   \\t = tab
+-   \# - starts a **comment** line and is ignored by R
+    -   `#my comment`
+    -   Best practice: Use these a lot to document your code
+
+# Printing to the console/screen
+
+```{r}
+#this is my comment
+```
+
+```{r}
+
+x = 5
+x
+print(x) #equivalent to above
+cat(x)   #similar to print, but less autoconversion of variables - simple variable types, like numbers, are converted to strings for printing, but more complex variable types, that we'll learn later, are not.  For this reason, you may more frequently use print.
+
+#Mixing variables within strings:
+number = 5
+string = "hello"
+paste("Number", number, "String", string)
+
+#Here is another way to do the same thing
+sprintf("Number %s String %s", number, string)
+
+#How do you print a quote?
+string = "gene \"ABC\""
+
+#Note:
+print(string) #outputs `"gene \"ABC\""
+
+cat(string)  #outputs gene "ABC"
+
+#Here is a way to use print to get a similar result to cat in this case
+print(string, quote=FALSE)
+
+#You can use the \t string to denote a tab
+cat("Separated\tby\ttabs")
+```
+
+# Exercise: Using variables (10 minutes)
+
+-   Use the R code chunk to write a program that does the following:
+    -   Create a variable number1 and set it to a numeric value
+    -   Do the same for number2
+    -   Compute the sum, product and ratio of these numbers
+    -   Print these to the screen
+-   Run it in the R console
+
+# Exercise solution (5 minutes)
+
+```{r}
+number1 = 5
+number2 = 7
+sum = number1 + number2
+product = number1 * number2
+ratio = number1 / number2
+print(number1 + number2)
+
+
+number1 = 150
+number2 = 25
+sum = number1 + number2
+product = number1 * number2
+ratio = number1 / number2
+print(number1 + number2)
+
+
+#This program does some math on two numbers
+
+#ask a user for one number
+n1string = readline("What is the first number?\n")
+#readline returns a string, so need to convert it to a number
+n1 = as.numeric(n1string)
+
+#ask a user for another number
+n2string = readline("What is the second number?\n")
+n2 = as.numeric(n2string)
+
+#do the math
+print("The sum of your numbers is:")
+print(n1+n2)
+print("The product of your numbers is:")
+print(n1*n2)
+print("The ratio of your numbers is:")
+print(n1/n2)
+
+```
+
+------------------------------------------------------------------------
+
+# Module 2
+
+The Book of R: section 2.3 (vectors), chapter 3 (matrices), 4.1
+(logicals), 4.2 (characters/strings)
+
+## Module 1 review
+
+-   Introduction to the R statistical programming environment
+-   Commands/functions e.g. c(1, 2, 3)
+-   Variables
+    -   Name syntax (special characters), declaring, assigning
+-   Variable types
+    -   numeric, string, logical
+
+------------------------------------------------------------------------
+
+# Sample code: numbers
+
+```{r}
+#Lots of things you can do with numeric variables
+x = 2
+x
+
+y = 2*x-3
+y
+
+paste("x=",x," 2*x-3=",y)
+
+x = x+1
+x
+
+x = x-1
+x
+
+x = x*1.5
+x
+
+y = x**2
+y
+
+x = y**(1/2)
+x
+
+z = exp(1)
+z
+
+x = z/2
+x
+
+paste("exp(1)/2 =", x)
+```
+
+# Operators
+
+-   Operators operate on variables
+-   = is the assignment operator
+-   Arithmetic operators
+    -   \+ addition
+    -   \- subtraction
+    -   \* multiplication
+    -   / division
+    -   \^ or \*\* exponentiation
+-   Comparison operators
+    -   \< less than
+    -   \<= less than or equal to
+-   And many more. See e.g.
+    <https://stat.ethz.ch/R-manual/R-devel/library/base/html/Arithmetic.html>
+
+# Sample code: strings
+
+```{r}
+# this is a string...
+DNA = "ACGGGAGGACGGGAAAATTACTACGGCATTAGC"
+
+#single vs. double quotes
+s = "string123"
+#s2 = "string"123"  #what's happening here?  Fix the code. (uncomment the line to see the error)
+#s2 = "string123"
+s3 = 'string123'
+#s4 = 'string"123'  #what's happening here?  Fix the code. (uncomment the line to see the error)
+#s4 = 'string123
+
+# concatenate (join) strings
+s = paste(s, s3)
+s = cat(s, s) # what is s?
+
+#Note: cat and paste have different return values. You can see what a command returns in the help page.
+cat(s,s)  #same thing as above cat command, but we don't need the return value, so we don't catch it in a variable. This would be the normal way to use the cat command.
+
+# nchar() finds string length
+n = nchar(DNA)
+
+# substrings give you part of a string. Start counting at 1
+alphabet = "abcdefghijklmnopqrstuvwxyz"
+substr(alphabet,3,5)
+
+#Substitution demo
+sub("A", "T", DNA)
+gsub("A", "T", DNA)
+
+# what does the g mean?
+sub("GA", "CT", DNA) # what happens if I include multiple characters in the pattern?
+
+# If I want to save the output
+DNA2=gsub("A", "T",DNA)
+
+#Translation demo
+chartr("A", "T", DNA)
+chartr("ACGT", "AAAA", DNA) # how is this different from substitution?
+```
+
+# Example code: reverse_complement.r
+
+```{r}
+# Using string operations to answer a biological question
+# What is the reverse complement of a DNA sequence?
+
+DNA = readline("Please enter a DNA sequence. I will return the reverse complement.\n\n")
+DNA = readline("ATGCCTACAGGATTTAAACGGCCC")
+
+# Print the DNA onto the screen
+cat("\nHere is the starting DNA sequence:\n")
+cat(DNA)
+cat("\n\n")
+
+# Calculate the reverse complement
+#  Warning: this attempt will fail!
+#
+# First, copy the DNA into new variable revcom
+# (short for REVerse COMplement)
+# It doesn't matter if we first reverse the string and then
+# do the complementation; or if we first do the complementation
+# and then reverse the string.  We'll get the same result each time.
+# So when we make the copy we'll do the reverse in the same statement.
+#
+
+revcom = paste(rev(strsplit(DNA, NULL)[[1]]), collapse="")
+
+#
+# Next substitute all bases by their complements,
+# A->T, T->A, G->C, C->G
+#
+
+revcom = gsub("A","T", revcom)
+revcom = gsub("T","A", revcom)
+revcom = gsub("G","C", revcom)
+revcom = gsub("C","G", revcom)
+
+# Print the reverse complement DNA onto the screen
+cat ("Here is the reverse complement DNA:\n")
+cat(revcom)
+
+#
+# Oh-oh, that didn't work right!
+# Our reverse complement should have all the bases in it, since the
+# original DNA had all the bases-but ours only has A and G!
+#
+# Do you see why?
+
+
+cat("\n\nThat was a bad algorithm, and the reverse complement was wrong!\n")
+readline("Press enter to try again\n\n")
+
+DNA = readline("ATGCCTACAGGATTTAAACGGCCC")
+
+# Make a new copy of the DNA (see why we saved the original?)
+revcom = paste(rev(strsplit(DNA, NULL)[[1]]), collapse="")
+
+revcom = chartr("ACGTacgt", "TGCAtgca", revcom)
+
+#Print the reverse complement DNA onto the screen
+cat ("Here is the reverse complement DNA:\n")
+cat(revcom)
+cat("\n\n")
+cat("This time it worked!\n")
+
+
+# RE-WORKING
+# Function to get the reverse complement of a DNA sequence
+get_reverse_complement <- function(DNA) {
+  # Make original DNA sequence
+  cat("\nHere is the starting DNA sequence:\n")
+  cat(DNA)
+  cat("\n\n")
+
+  # Calculate the reverse complement
+  revcom = paste(rev(strsplit(DNA, NULL)[[1]]), collapse="")
+  
+  # Use chartr for the complement
+  revcom = chartr("ACGTacgt", "TGCAtgca", revcom)
+  
+  #Print the reverse complement DNA onto the screen
+  cat ("Here is the reverse complement DNA:\n")
+  cat(revcom)
+  cat("\n\n")
+  cat("This time it worked!\n")
+  
+}
+
+# Read input from the user
+DNA = readline("Please enter a DNA sequence. I will return the reverse complement.\n\n")
+
+# Call the function with the user's input
+get_reverse_complement(DNA)
+
+
+
+```
+
+# Exercise: Reading in data from the console (10 minutes)
+
+> Write a program that does the following:
+
+-   Prompt the user to input a number (number 1)
+    -   Hint: use the readline function
+    -   n = readline("What is the first number?\n")
+    -   Also, as.numeric(n) to convert to a number
+-   Prompt the user to input another number (number 2)
+-   Output the sum, product and ratio of these numbers
+
+> Remember to use a code chunk in this R notebook to run your code
+
+# Exercise solution (5 minutes)
+
+```{r}
+#Add your exercise code here. You can create your own code chunk by typing the text you see at the start "```{r}" and end "```" of the chunk, or by using the 'insert' button at the top of this editor tab
+
+n1string = readline("What is the first number?\n")
+n1 = as.numeric(n1string)
+n2string = readline("What is the second number?\n")
+n2 = as.numeric(n2string)
+print(n1+n2)
+print(n1*n2)
+print(n1/n2)
+
+
+```
+
+# More variable types
+
+## Vectors and Matrices
+
+# Vectors: creating
+
+-   One of the variable types in R
+-   A vector is a sequence of data of the same type (e.g. numbers,
+    strings)
+-   Create a vector with the `c()` function
+
+```{r}
+vector = c(1,2,3,4)
+vector
+
+x = c(1.2,2,54,6)
+x
+
+y = c(10,23.4,2,3)
+y
+```
+
+# Vectors: math
+
+```{r}
+# We can multiply two vectors element by element
+print(x*y)
+
+# Can also do a dot product of two vectors
+x %*% y
+
+#Note: In the console, you don't need to use print()
+```
+
+# Vectors: types
+
+-   We can also create text or LOGICAL vectors
+
+```{r}
+textvec=c("Patient1","Patient2","Patient3")
+textvec
+```
+
+```{r}
+#Not compatible with arithmetic
+#print(textvec * 2)  #gives an error
+```
+
+```{r}
+
+logicvec=c(TRUE,FALSE,TRUE,FALSE)
+logicvec
+
+#Can also write:
+c(T,F,T,F)
+```
+
+# Vectors: indexing
+
+-   Indexing is for accessing subsets of vectors
+-   For indexing, we always use the square brackets [ ]
+
+```{r}
+
+textvec[1]
+textvec[3]
+
+#We can also simultaneously access multiple elements
+textvec[1:2]
+textvec[c(1,1,3,3)]
+
+#The length command
+length(textvec)
+
+```
+
+# Vectors: names
+
+```{r}
+#R allows named elements
+namedvec=c(firstcol=3, B=245, C=1212, lastelement=29.3)
+namedvec
+
+#We can then access the elements using the names
+namedvec["firstcol"] * 10
+
+#If we access an element with the wrong name we get NA
+namedvec["asdf"]
+
+#names() returns the vector of names
+names(namedvec)
+```
+
+# Exercise: Vectors and indexing (10 minutes)
+
+> Create a vector “radii” of length three containing the numbers 5, 10
+> and 20. Use “\*” and the built-in constant “pi” to compute the areas
+> of the three circles. Then subtract 2.1 and recompute the areas
+
+> Use the “seq” and “sum” functions for this exercise - remember, you
+> can always look up help using help(function): Generate a vector
+> “counter” with a sequence of numbers from 1 to 100. Compute the sum of
+> these numbers
+
+> Generate a vector “randomdata” of length 100 with random numbers using
+> the command “runif”
+
+> Bonus: Make a vector sorter that will sort the random numbers using
+> the “order” function and return the sorted random data in
+> “sortedrandom”
+
+# Exercise solution (5 minutes)
+
+```{r}
+#Exercise: Vectors and indexing
+
+# Create a vector “radii” of length three containing the numbers 5, 10 and 20. Use “*” and the built-in constant “pi” to compute the areas of the three circles. Then subtract 2.1 and recompute the areas
+radii=c(5,10,20)
+radii^2 * pi
+(radii - 2.1)^2 * pi
+
+# Use the “seq” and “sum” functions for this exercise - remember, you can always look up help using help(function): Generate a vector “counter” with a sequence of numbers from 1 to 100. Compute the sum of these numbers
+counter=c(seq(1:100))
+sum(counter)
+
+# Generate a vector “randomdata” of length 100 with random numbers using the command “runif”
+randomdata=c(runif(100))
+
+# Bonus: Make a vector sorter that will sort the random numbers using the “order” command and return the sorted random data in “sortedrandom”
+sortedrandom = randomdata[order(randomdata)]
+
+```
+
+# Matrices
+
+> A matrix is like a 2D vector (i.e. a square or rectangle). Like a
+> spreadsheet table with rows, columns
+
+```{r}
+
+#Create with the matrix command
+firstmat = matrix(c(1,2.3,3,4,5.3,6.4),nrow=2,ncol=3,dimnames = list(c("row1","row2"),c("col1","col2","col3")))
+firstmat
+
+#Values are given in the first argument, the dimensions in the 2nd/3rd argument, dimension names in the last argument
+
+#We can extract whole rows and columns like this
+firstmat[,1]  #first column. firstmat[,2] – second column
+firstmat[1,]  #first row
+
+#We can also access rows and columns by name
+firstmat[,"col2"]
+
+#We can access single elements or subsets of the matrix like this
+firstmat[1,2]
+firstmat[1:2,2:3]
+
+```
+
+# Exercise: Matrices (10 minutes)
+
+> Create a matrix with 3 columns and 10 rows
+
+> Fill it with random numbers using the runif() command
+
+> Calculate the average value in the matrix using the mean() command
+
+# Exercise solution (5 minutes)
+
+```{r}
+#Exercise: Matrices
+
+#Create a matrix with 3 columns and 10 rows and fill it with random numbers using the runif() command
+firstmat = matrix(runif(30),nrow=10,ncol=3)
+#Calculate the average value in the matrix using the mean() command
+mean(firstmat)
+
+```
+
+------------------------------------------------------------------------
+
+# Module 3
+
+The Book of R: chapter 3.4 (arrays), 5.1 (lists), 5.2 (data frames)
+
+------------------------------------------------------------------------
+
+## Module 2 review
+
+-   Variable types: vector, matrix
+-   Vector
+    -   x = c(1.2,2,54,6)
+    -   textvec[1:2]
+-   Matrix
+    -   firstmat = matrix(c(1,2.3,3,4,5.3,6.4), nrow=2, ncol=3)
+    -   firstmat[1,2]
+    -   firstmat[1:2,2:3]
+
+------------------------------------------------------------------------
+
+# Exercise: String commands (10 minutes)
+
+> We used this code to reverse a string
+
+> `paste(rev(strsplit(DNA, NULL)[[1]]), collapse="")`
+
+> Figure out how this works by trying each of the nested functions,
+> starting from `strsplit(DNA, NULL)` (Note: create your DNA variable as
+> a string first. Don't copy the \` characters above - those are just
+> there so R knows that the string is R code, and it displays it as a
+> different colour)
+
+> Note: `[[1]]` extracts elements within a list (which is a type of
+> vector that can contain other lists)
+
+# Exercise solution (5 minutes)
+```{r}
+DNA = "AGTCGACTACGTACGACTGAGATACTGAGCGATCG"
+
+splitVariable = strsplit(DNA, NULL)
+
+splitVariable[[1]]
+
+splitRev = rev(splitVariable[[1]])
+
+paste(splitRev, collapse="")
+
+#test that the result is the same as the original command
+paste(rev(strsplit(DNA, NULL)[[1]]), collapse="")
+
+```
+
+# Variables (continued)
+
+## Lists, arrays, data frames
+
+# Lists: creating
+
+-   Lists are vectors that contain a mix of variable types
+-   Create a list using the list() function
+
+```{r}
+numericVector = c(1, 3, 5)
+numericVector
+#Note: numericVector is just a variable name - we call it numericVector because we define it here to contain numbers, but it could be called any variable name that is allowed.
+
+stringVector = c("abc", "def", "ghi")
+stringVector
+
+logicVector = c(T, F, T, F)
+logicVector
+
+listVariable = list(numericVector, stringVector, logicVector, 77)
+listVariable
+```
+
+# Lists: accessing
+
+```{r}
+listVariable
+listVariable[1]  #access first list element
+listVariable[[1]] #access content of first element
+listVariable[[1]][2] 
+
+listVariable[[2]][1] = "ACGT"
+listVariable[[2]]
+listVariable[c(2, 4)]
+```
+
+# Lists: named elements
+
+```{r}
+listVariable = list(numbers=numericVector, strings=stringVector, logic=logicVector, myNum=77)
+listVariable
+
+listVariable["numbers"]
+listVariable["myNum"]
+
+#These are equivalent for named elements
+listVariable[[1]]
+listVariable[["numbers"]]
+listVariable$numbers  #easiest access method
+
+```
+
+# Exercise: Lists (10 minutes)
+
+-   Create a list containing a vector of odd numbers from 1 to 100
+    -   Hint: you can use the seq() command
+-   Calculate the sum of this list
+    -   Hint: use the sum() command
+-   Repeat this, but name the vector and access its values from the list
+    using its name
+
+# Exercise solution (5 minutes)
+```{r}
+# Create a list containing a vector of odd numbers from 1 to 100
+l = list(seq(1,100, by=2))
+
+# Calculate the sum of this list
+sum(l[[1]])
+
+# Repeat this, but name the vector and access its values using its name
+l = list(oddNumbers=seq(1,100, by=2))
+sum(l$oddNumbers)
+
+```
+
+# Arrays: creating
+
+-   Like matrix, but more than two dimensions
+-   Only one data type (like vector, matrix)
+-   Create an array using the array() function
+
+```{r}
+vector1 = c(1,3,5)
+vector1
+
+vector2 = c(20,21,22,23,24,25)
+vector2
+
+#Create two 3x3 matrices
+arrayVariable = array(c(vector1,vector2), dim = c(3,3,2))
+arrayVariable
+```
+
+# Arrays: accessing
+
+```{r}
+arrayVariable
+
+#get matrix 1
+arrayVariable[,,1]
+
+#get 3rd row of matrix 2
+arrayVariable[3,,2]
+
+#get element in row 1, column 3 in matrix 1
+arrayVariable[1,3,1]
+
+#get matrix 2
+arrayVariable[,,2]
+
+```
+
+# Arrays: named elements
+
+```{r}
+#Create the names
+rowNames = c("row1","row2","row3")
+rowNames
+
+columnNames = c("col1","col2","col3")
+columnNames
+
+matrixNames = c("matrix1","matrix2")
+matrixNames
+
+arrayVariable = array(c(vector1,vector2), dim = c(3,3,2), dimnames = list(rowNames, columnNames, matrixNames))
+arrayVariable
+
+#Access by names:
+arrayVariable[,,"matrix1"]
+arrayVariable["row2","col1","matrix1"]
+
+```
+
+# Data frames: creating
+
+-   Used to store data tables
+-   List of equal sized vectors
+-   Create a data.frame using the data.frame() function
+
+```{r}
+name = c("patient1", "patient2", "patient3")
+name
+
+age = c(46, 49, 50)
+age
+
+smoker = c(T, F, T)
+smoker
+
+patientRecords = data.frame(name, age, smoker)
+patientRecords
+```
+
+# Data frames: accessing
+
+```{r}
+patientRecords
+
+#Just like matrices
+patientRecords[1,] #row 1
+patientRecords[,1] #column 1
+patientRecords[1,2] #element at row 1, column 2
+patientRecords$age
+
+```
+
+# Exercise: Data frames (10 minutes)
+
+> Read the "gene_condition_source_id.txt" file used in Assignment 1 into
+> a data frame variable (see assignment 1 for the command)
+
+> Look at the top few rows using the head() command
+
+> How many rows and columns does the file have? Try the str() command.
+> Also try nrow() and ncol()
+
+> Use names() to find the column names
+
+# Exercise solution (5 minutes)
+```{r}
+#remember to set the current working directory (ensure Preview->Knit Directory->Current Working Directory)
+getwd()
+
+#Read the "gene_condition_source_id.txt" file
+dataFrame = read.table("gene_condition_source_id.txt", header=TRUE, sep="\t", fill=TRUE, comment.char = "", quote = "")
+
+#Look at the top few rows
+head(dataFrame)
+
+#How many rows and columns does the file have? 
+str(dataFrame)
+nrow(dataFrame)
+ncol(dataFrame)
+
+#Use names() to find the column names 
+names(dataFrame)
+
+```
+
+------------------------------------------------------------------------
+
+# Module 4
+
+The Book of R: chapter 4.3 (factors), 8 (files)
+
+------------------------------------------------------------------------
+
+## Module 3 review
+
+-   Variable types: list, array, data frame
+-   List
+    -   x = listVariable = list(numericVector, stringVector,
+        logicVector, 77)
+    -   listVariable[1] #access first list element
+    -   listVariable[[1]] #access content of first element
+-   Array
+    -   arrayVariable = array(c(vector1,vector2),dim = c(3,3,2))
+    -   arrayVariable[,,1] #get matrix 1
+-   Data frame
+    -   patientRecords = data.frame(name, age, smoker)
+    -   patientRecords[1,] #row 1
+    -   patientRecords[,1] #column 1
+    -   patientRecords[1,2] #element at row 1, column 2
+    -   patientRecords\$age
+
+------------------------------------------------------------------------
+
+# Exercise: Querying data frames (10 minutes)
+
+> Using the same variable you read "gene_condition_source_id.txt" into
+> for the previous exercise, find how many unique diseases are linked to
+> TP53?
+
+> Hint: you can access vector elements matching a specific criteria
+> using:
+> `vectorVariable$colNameToAccess[vectorVariable$colNameToSearch=="string"]`
+
+> Hint: ?unique
+
+# Exercise solution (5 minutes)
+```{r}
+#Exercise: Querying data frames
+#Using the same variable you read "gene_condition_source_id.txt" into for the previous exercise, find how many unique diseases are linked to TP53?
+
+unique(dataFrame$DiseaseName[dataFrame$AssociatedGenes=="TP53"])
+
+```
+
+# Review: data types vs. data structures
+
+-   Key programming concept
+-   Primitive types
+    -   numeric, logical, string
+-   Types
+    -   vector, matrix, array, list, data frame
+-   Data structure
+    -   A structure created using types
+    -   e.g. vector, data frame, tree
+
+|     | All same data type | Mixed data types |
+|-----|--------------------|------------------|
+| 1d  | Vector             | List             |
+| 2d  | Matrix             | Data frame       |
+| nd  | Array              |                  |
+
+# One more variable type: Factors
+
+-   Stores categorical variables
+-   A variable which can be one of a limited number of values
+-   Create a factor using the factor() function
+
+```{r}
+x = c(1,2,3,3,2,1,2,3,1)
+x
+
+f = factor(x)
+f
+
+#A factor has levels: these are the possible values
+levels(f)
+
+```
+
+# Factors and data frames
+
+```{r}
+#In earlier versions of R, by default data.frame() would create factors for string variable columns
+patientRecords = data.frame(name, age, smoker, stringsAsFactors = T)
+patientRecords
+str(patientRecords)   #Note: "Factor w/ 3 levels"
+
+#Tell data.frame() not to create factors
+patientRecords2 = data.frame(name, age, smoker, stringsAsFactors=F)
+str(patientRecords2)
+
+```
+
+# Exercise: Working with Factors (10 minutes)
+
+> Convert the following protein sequence (just the amino acid sequence
+> part) to a factor and use it to count how many amino acids of each
+> type are in a protein
+
+> Hint: ?summary
+
+> sp\|P04637\|P53_HUMAN Cellular tumor antigen p53 OS=Homo sapiens
+> MEEPQSDPSVEPPLSQETFSDLWKLLPENNVLSPLPSQAMDDLMLSPDDIEQWFTEDPGPDEAPRMPEAAPPVAPAPAAPTPAAPAPAPSWPLSSSVPSQKTYQGSYGFRLGFLHSGTAKSVTCTYSPALNKMFCQLAKTCPVQLWVDSTPPPGTRVRAMAIYKQSQHMTEVVRRCPHHERCSDSDGLAPPQHLIRVEGNLRVEYLDDRNTFRHSVVVPYEPPEVGSDCTTIHYNYMCNSSCMGGMNRRPILTIITLEDSSGNLLGRNSFEVRVCACPGRDRRTEEENLRKKGEPHHELPPGSTKRALPNNTSSSPQPKKKPLDGEYFTLQIRGRERFEMFRELNEALELKDAQAGKEPGGSRAHSSHLKSKKGQSTSRHKKLMFKTEGPDSD
+
+# Exercise solution (5 minutes)
+
+```{r}
+protein = "MEEPQSDPSVEPPLSQETFSDLWKLLPENNVLSPLPSQAMDDLMLSPDDIEQWFTEDPGPDEAPRMPEAAPPVAPAPAAPTPAAPAPAPSWPLSSSVPSQKTYQGSYGFRLGFLHSGTAKSVTCTYSPALNKMFCQLAKTCPVQLWVDSTPPPGTRVRAMAIYKQSQHMTEVVRRCPHHERCSDSDGLAPPQHLIRVEGNLRVEYLDDRNTFRHSVVVPYEPPEVGSDCTTIHYNYMCNSSCMGGMNRRPILTIITLEDSSGNLLGRNSFEVRVCACPGRDRRTEEENLRKKGEPHHELPPGSTKRALPNNTSSSPQPKKKPLDGEYFTLQIRGRERFEMFRELNEALELKDAQAGKEPGGSRAHSSHLKSKKGQSTSRHKKLMFKTEGPDSD"
+
+aminoacids = strsplit(protein, split = "")
+aminoacids[[1]]
+
+f = factor(aminoacids[[1]])
+f
+summary(f)
+
+```
+
+# Files
+
+## Key Programming Concept
+
+# Reminder: Redirect output and input
+
+# look at fileOutput.png image in "R notebook extra files" directory
+
+> \$ grep cancer genes2phenotype.txt \> myfile.txt
+
+> Will print all lines in “genes2phenotype.txt” that contain “cancer” to
+> the file “myfile.txt” (no output to screen). Use “cat” or “more” to
+> view the contents of myfile.txt
+
+# What is a file
+
+*A file is a set of data stored somewhere and given a name* Every file
+is a series of binary numbers, usually thought of as a series of bytes
+\*A bit is the smallest unit of data a computer can store: either 0 or 1
+(a switch is off or on)
+
+| Binary (base 2) | Number (base 10) |
+|-----------------|------------------|
+| 00              | 0                |
+| 01              | 1                |
+| 10              | 2                |
+| 11              | 3                |
+
+*A byte is 8 bits and can represent up to 2\^8 = 256 values* As a more
+compact representation, computers often display binary values in
+hexadecimal (base 16). Two hexademical digits = 16\^2 = 256 values = 8
+binary digits
+
+| Hexademical (base 16) | Number (base 10) |
+|-----------------------|------------------|
+| 0                     | 0                |
+| 1                     | 1                |
+| 2                     | 2                |
+| ...                   | ...              |
+| a                     | 10               |
+| ...                   | ...              |
+| f                     | 15               |
+
+*So a file can be thought of as a series of pairs of hexadecimal digits*
+UNIX commands are available to view a file as this raw data e.g.
+
+```{bash}
+xxd fileOutput.png | head
+```
+
+-   This is how a PNG image file is stored on disk (the first 80 bytes):
+    \#`{bash} 00000000: 8950 4e47 0d0a 1a0a 0000 000d 4948 4452  .PNG........IHDR 00000010: 0000 0307 0000 01da 0806 0000 0055 6735  .............Ug5 00000020: 9700 0000 0173 5247 4200 aece 1ce9 0000  .....sRGB....... 00000030: 0009 7048 5973 0000 1712 0000 1712 0167  ..pHYs.........g 00000040: 9fd2 5200 0040 0049 4441 5478 01ec dd07  ..R..@.IDATx.... #`
+
+-   The data in a file can be represented in different ways
+
+-   A common way for text to be represented is in ASCII format
+
+# Look at ASCII table from <https://simple.wikipedia.org/wiki/ASCII>] "ASCII-Table-wide.svg" file in "R notebook extra files" directory
+
+-   Numbers 32 to 126 define printable characters e.g. decimal 32 =
+    space
+
+-   Note that there are two different ways to say "next line"
+
+    -   number 10 (hex: 0A) = line feed
+    -   number 13 (hex: 0D) = carriage return
+
+-   Different operating systems unfortunately use different ways
+    (encodings) to represent "next line".
+
+-   macOS and UNIX use line feed (hex: 0A). Windows uses a combination
+    of carriage return and line feed (hex: 0D 0A).
+
+-   See more details at <https://en.wikipedia.org/wiki/Newline>
+
+-   Exercise on your own: Use the UNIX xxd command to view a text file
+    and see how the text (and a line break) is represented as ASCII
+    codes.
+
+-   Why did we learn this? There are different types of hidden or
+    unexpected characters possible in a file and you sometimes need to
+    be aware of them when reading and writing files. If in doubt,
+    examine your file in a text editor, or use `head` on the command
+    line to view a file and make sure it is the format you are
+    expecting.
+
+-   Tip: on UNIX, you can use the file command to see what type of
+    format a file is.
+
+```{bash}
+file mydata.txt
+file fileOutput.png
+```
+
+-   A common type of file in data science is a table (like a spreadsheet
+    worksheet, or data frame), usually represented as a tab-delimited
+    format. This type of file should be explored in a spreadsheet
+    application before you try to read it in R
+
+# Working with files in R
+
+```{r}
+#Remember to set the working directory
+getwd()
+#setwd("path")
+#setwd("C:/MyDoc")
+
+list.files()
+dir()  #this does the same thing
+#file.create(), file.rename() and many more
+
+```
+
+# Data import and export
+
+-   We usually work with files using read and write functions
+
+```{r}
+patientRecords
+write.table(patientRecords, "mydata.txt", sep="\t")
+
+mydata = read.table("mydata.txt")
+mydata
+
+```
+
+# Exercise: Practice reading and writing files (10 minutes)
+
+> Read the "gene_condition_source_id.txt" file dataFrame =
+> read.table("gene_condition_source_id.txt", header=TRUE, sep="\t",
+> fill=TRUE, comment.char = "", quote = "")
+
+> count the number of columns and rows
+
+> write one column to a file "column.txt" and write one row to a file
+> "row.txt"
+
+> examine original and resulting files in a spreadsheet - did you get
+> the correct answer?
+
+# Exercise solution (5 minutes)
+
+```{r}
+dataFrame = read.table("gene_condition_source_id.txt", header=TRUE, sep="\t", fill=TRUE, comment.char = "", quote = "")
+
+#how many columns?
+ncol(dataFrame)
+
+mylabels = labels(dataFrame)
+length(labels(dataFrame)[[2]])
+
+#how many rows?
+nrow(dataFrame)
+length(labels(dataFrame)[[1]])
+
+#write one column
+write.table(dataFrame$DiseaseName, file = "column.txt", row.names = FALSE, col.names = FALSE, quote = FALSE)
+
+#write one row
+write.table(dataFrame[1,], file = "row.txt", row.names = FALSE, col.names = FALSE, quote = FALSE)
+
+#did you get the correct answer, as observed in your spreadsheet software?
+```
+
+# Conditional statements
+
+## Key Programming Concept
+
+# Conditional statements
+
+-   if condition is true, then run these commands
+-   The "if statement"
+
+```{r eval=FALSE}
+if (test_expression) {
+  
+  
+  statement
+}
+
+#Note: indenting is optional, but is good style because indented code is easier to read
+```
+
+-   Example
+
+```{r}
+x = 5
+if (x > 0) {
+  print("Positive number")
+}
+
+x = -5
+if (x > 0) {
+  print("Positive number")
+}
+```
+
+# if..else statement
+
+```{r eval=FALSE}
+if (test_expression) {
+  statement1 
+} else {
+  statement2
+}
+```
+
+-   Example
+
+```{r}
+x = 5
+if (x > 0) {
+  print("Positive number")
+} else {
+  print("Negative number")
+}
+
+```
+
+# if..else if statement
+
+```{r eval=FALSE}
+if (test_expression1) {
+	statement1
+} else if (test_expression2) {
+	statement2
+} else {
+	statement3
+}
+```
+
+-   Example
+
+```{r}
+x = 5
+if (x > 0) {
+  print("Positive number")
+} else if (x==0) {
+  print("Zero")
+} else {
+  print("Negative number")
+}
+
+x = 0
+if (x > 0) {
+  print("Positive number")
+} else if (x==0) {
+  print("Zero")
+} else {
+  print("Negative number")
+}
+
+x = -4
+if (x > 0) {
+  print("Positive number")
+} else if (x==0) {
+  print("Zero")
+} else {
+  print("Negative number")
+}
+
+```
+
+# Comparison operators
+
+```         
+<           less than
+<=          less than or equal to
+>           greater than
+>=          greater than or equal to
+==          exactly equal to
+!=          not equal to
+!x          not x
+x | y       x OR y
+x & y       x AND y e.g. if( (x != 3) & (x > 0) )
+```
+
+TODO:explain compound conditional parse tree concept
+
+Note: identical() function is more generic than == and it can work on
+any R object
+
+------------------------------------------------------------------------
+
+# Module 5
+
+The Book of R: chapter 10.2 and 10.3 (loops), 10.2.3 (apply functions)
+
+------------------------------------------------------------------------
+
+## Module 4 review
+
+-   Factors
+    -   f = factor(x)
+    -   levels(f)
+-   Files
+    -   ASCII
+    -   write.table
+    -   read.table
+-   Conditional statements
+    -   if, if else if, if else if else
+
+------------------------------------------------------------------------
+
+# Exercise: conditions (10 minutes)
+
+> Write conditional statement code that evaluates an amino acid's
+> physicochemical property and outputs the following, given a single
+> letter amino acid code:
+
+```         
+"Charged" for R, K, D, E 
+"Polar" for Q, N, H, S, T, Y, C
+"Amphipathic" for W, Y, M
+"Hydrophobic" for A, I, L, M, F, V, P, G
+```
+
+Correct: (aa == "R") \| (aa == "K")
+
+Incorrect: (aa == "R" \| "K") #this won't work
+
+# Exercise solution (5 minutes)
+```{r}
+aminoAcid = "M"
+if( (aminoAcid == "R") | (aminoAcid == "K") | aminoAcid == "D" | aminoAcid == "E") {
+  print ("Charged")
+}
+if(aminoAcid == "Q" | aminoAcid == "N" | aminoAcid == "H" | aminoAcid == "S" | aminoAcid == "T" | aminoAcid == "Y" | aminoAcid == "C") {
+  print ("Polar")
+}
+if(aminoAcid == "W" | aminoAcid == "Y" | aminoAcid == "M") {
+  print ("Amphipathic")
+}
+if(aminoAcid == "A" | aminoAcid == "I" | aminoAcid == "L" | aminoAcid == "M" | aminoAcid == "F" | aminoAcid == "V" | aminoAcid == "P" | aminoAcid == "G") {
+  print ("Hydrophobic")
+}
+
+#note: some amino acids (e.g. M, Y) appear in more than one category. If this happens, you can't use an if..else conditional - you need to use a series of independent if statements.
+
+```
+
+
+
+# Loops
+
+## Key Programming Concept
+
+# Loops
+
+```{r}
+vectorVariable = c(1,-2,3,-5)
+
+#Let's find all of the positive numbers
+if(vectorVariable[1]>0) {
+  print("Positive number")
+}
+if(vectorVariable[2]>0) {
+  print("Positive number")
+}
+if(vectorVariable[3]>0) {
+  print("Positive number")
+}
+if(vectorVariable[4]>0) {
+  print("Positive number")
+}
+
+#Problems with this approach:
+#1. There is a lot of repeated code
+#2. What happens if the vector is really long?
+
+```
+
+-   Loops provide a way of efficiently repeating the same code
+-   Two major kinds of loops: for, while
+
+# For loop e.g. find positive numbers
+
+```{r}
+#Here is the same problem, but solved using a for loop
+vectorVariable = c(1,-2,3,-5)
+for (value in vectorVariable) {
+  if (value > 0) {
+    print(value)
+  }
+}
+
+
+#What is happening here?  Let's "unroll" the loop
+vectorVariable = c(1,-2,3,-5)
+value = vectorVariable[1]
+if (value > 0) {
+  print(value)
+}
+value = vectorVariable[2]
+if (value > 0) {
+  print(value)
+}
+value = vectorVariable[3]
+if (value > 0) {
+  print(value)
+}
+value = vectorVariable[4]
+if (value > 0) {
+  print(value)
+}
+
+#Note: 'value' is just a variable, so can have any name of a variable
+
+#The for loop automatically repeated the same code inside the loop, automatically updating the value variable to the next element of the vector, so it could "loop" through all the vector elements
+
+#here is an idiomatic way to write a for loop that executes a specific number of times:
+sum=0
+for (i in 1:100) {
+  sum = sum + i;   #note: ; indicates the end of a statement, but it is optional in R
+}
+print (sum)
+
+#this is the same as sum(1:100) - in this case, R has a 'high level' command that does the same thing. Internally, sum() uses a loop to do its job.
+
+# Could also do above
+
+for (i in 1:4) {
+  value=vectorVariable[i]
+  if (value > 0) {
+    print(value)
+  }
+}
+
+```
+
+# While loop
+
+-   Example: find positive numbers in a vector
+
+```{r}
+vectorVariable = c(1,-2,3,-5)
+i=1
+while (i <= length(vectorVariable)) {
+  if (vectorVariable[i] > 0) {
+    print(vectorVariable[i])
+  }
+  i = i + 1
+}
+
+#What is happening here?  Let's "unroll" the loop
+vectorVariable = c(1,-2,3,-5)
+i=1  #i is an index to keep track of our position in the vector. i=1 means to start with the first element of the vector.
+if (i <= length(vectorVariable)) { #if i is smaller or equal to the vector length, then we can run our code
+  if (vectorVariable[i] > 0) {
+    print(vectorVariable[i])
+  }
+  i = i + 1  #move to the next element - i now equal to 2
+}
+if (i <= length(vectorVariable)) { #if i is smaller or equal to the vector length, then we can run our code
+  if (vectorVariable[i] > 0) {
+    print(vectorVariable[i])
+  }
+  i = i + 1  #move to the next element - i now equal to 3
+}
+if (i <= length(vectorVariable)) { #if i is smaller or equal to the vector length, then we can run our code
+  if (vectorVariable[i] > 0) {
+    print(vectorVariable[i])
+  }
+  i = i + 1  #move to the next element - i now equal to 4
+}
+if (i <= length(vectorVariable)) { #if i is smaller or equal to the vector length, then we can run our code
+  if (vectorVariable[i] > 0) {
+    print(vectorVariable[i])
+  }
+  i = i + 1  #move to the next element - i now equal to 5
+}
+if (i <= length(vectorVariable)) { #i is no longer smaller than the vector length, so don't run the code
+  if (vectorVariable[i] > 0) {
+    print(vectorVariable[i])
+  }
+  i = i + 1
+}
+
+
+#The while and for loops can do the same thing. Sometimes it is more convenient to write a loop one way or another
+
+
+
+```
+
+# Reasons to write loops
+
+-   You want to loop over all elements of a vector (the most common case
+    in R)
+
+```{r}
+for (i in vectorVariable) {
+  if (i > 0) {
+    print(i)
+  }
+}
+```
+
+-   You want to run a certain number of operations
+
+```{r}
+sum=0
+for (i in 1:100) {
+  sum = sum + i
+}
+print (sum)
+
+#same as
+i=1
+sum=0
+while (i <= 100) {
+  sum = sum + i
+  i = i + 1
+}
+print (sum)
+
+```
+
+-   You want to run code until a certain condition occurs e.g. find the
+    first instance of "cancer" in the genes2phenotype file
+
+```{r}
+vectorVariable = c(1,-2,3,-5)
+i=1
+while (vectorVariable[i] != 3) {
+  print(vectorVariable[i])
+  i = i + 1
+}
+```
+
+# Infinite loops
+
+-   Be careful that the loops don't go on forever
+-   If this happens, you need to stop or interrupt the R code. In
+    RStudio, you interrupt the code from the Session menu
+
+```{r eval=FALSE}
+vectorVariable = c(1,-2,3,-5)
+i=1
+while (i <= length(vectorVariable)) {
+  if (vectorVariable[i] > 0) {
+    print(vectorVariable[i])
+  }
+  #i = i + 1  #We never update the loop index, so i will never be greater than the vector length, so the loop will never end
+}
+
+```
+
+# Exercise: Loops (10 minutes)
+
+> Read the "gene_condition_source_id.txt" file dataFrame =
+> read.table("gene_condition_source_id.txt", header=TRUE, sep="\t",
+> fill=TRUE, comment.char = "", quote = "")
+
+> Using a for loop, loop over all the rows of
+> "gene_condition_source_id.txt" and find all diseases linked to TP53
+
+> Hint: extract a vector from the dataframe to search for TP53. Keep
+> track of the row you're in with a variable so you can print the
+> disease at the row you find TP53 e.g. i = i + 1
+
+# Exercise solution (5 minutes)
+```{r}
+dataFrame = read.table("gene_condition_source_id.txt", header=TRUE, sep="\t", fill=TRUE, comment.char = "", quote = "")
+
+#1. write a for loop to print the rows of a column
+for (value in dataFrame$AssociatedGenes) {
+  print(value)
+}
+#2. add an if statement to only print when I see TP53
+for (value in dataFrame$AssociatedGenes) {
+  if(value == "TP53") {
+    print(value)
+  }
+}
+#3. add a row counter
+rowCounter = 0
+for (value in dataFrame$AssociatedGenes) {
+  if(value == "TP53") {
+    print(value)
+  }
+  rowCounter = rowCounter + 1
+  print(rowCounter)
+}
+#4 print the disease name for the row that has TP53
+rowCounter = 1
+for (value in dataFrame$AssociatedGenes) {
+  if(value == "TP53") {
+    print(dataFrame$DiseaseName[rowCounter])
+  }
+  rowCounter = rowCounter + 1
+}
+
+
+#another way to solve it
+for (j in 1:nrow(dataFrame)) {
+  if (dataFrame$AssociatedGenes[] == "TP53") {
+    print(dataFrame$DiseaseName[j])
+  }
+}
+
+
+```
+
+
+
+# Vectorization
+
+## Key Programming Concept in R
+
+### (but not in many other programming languages)
+
+# Vectorization
+
+-   Provides the ability to loop over vectors without writing loops
+-   Key feature of R that helps do powerful things with a small amount
+    of code (high level)
+-   Try to to avoid loops and use vectors because loops tend to be
+    slower than vectors in R
+
+```{r}
+vectorVariable = c(1,-2,3,-4)
+vectorVariable
+
+vectorVariable * 5
+vectorVariable * vectorVariable
+sum(vectorVariable)
+#similarly, you can use: prod(), mean(), sd(), min(), max()
+
+stringVariable = c("first", "last")
+stringVariable
+
+paste(stringVariable, "name")
+paste(stringVariable, c("name1", "name2"))  #note how vectorization applies the transformation to all strings in the string vector
+
+```
+
+# Logical selection from a vector
+
+```{r}
+vectorVariable > 0
+vectorVariable == 0
+vectorVariable < 0
+vectorVariable[c(T,F,T,F)]
+vectorVariable[vectorVariable>0]
+ifelse(vectorVariable>0,"positive number", "negative number")
+```
+
+```{r}
+#remember: for loop to find positive numbers in a vector
+vectorVariable = c(1,-2,3,-5)
+for (value in vectorVariable) {
+  if (value > 0) {
+    print(value)
+  }
+}
+
+#the vectorization way of doing this is:
+vectorVariable[vectorVariable>0]
+
+#much easier!
+
+```
+
+# Vectorization with data frames
+
+```{r}
+name = c("patient1", "patient2", "patient3")
+name
+
+age = c(46, 49, 50)
+age
+
+smoker = c(T, F, T)
+smoker
+
+patientRecords = data.frame(name, age, smoker, stringsAsFactors=F)
+
+#What is going on here?
+patientRecords$age>48
+patientRecords[patientRecords$age>48]  #oops
+patientRecords[ , patientRecords$age>48]  #oops
+patientRecords[patientRecords$age>48 , ]
+
+```
+
+# "apply" function
+
+-   applies a function to a matrix
+
+```{r}
+#Create a new matrix with number 1 to 30
+x = matrix(1:30, nrow=5, ncol=6)
+x
+
+#Sum the rows
+apply(x, MARGIN=1, FUN=sum)
+
+#or equivalently
+apply(x, 1, sum)
+
+#Sum the columns
+apply(x, 2, sum)
+
+```
+
+# lapply()
+
+-   Similar to apply, but for lists
+
+```{r}
+#Compute the mean for all the columns in a data.frame (which is also a list)
+lapply(patientRecords, mean)
+
+#You may see lots of other apply functions in R code e.g. mapply, sapply, tapply, vapply
+```
+
+------------------------------------------------------------------------
+
+# Module 6
+
+The Book of R: chapter 11.1, 11.2 (functions), Glance at ?base::regex
+
+------------------------------------------------------------------------
+
+## Module 5 review
+
+-   Loops
+
+```         
+for (value in vectorVariable) {
+  if (value > 0) {
+    print(value)
+  }
+}
+```
+
+-   Vectorization
+    -   e.g. vectorVariable[vectorVariable\>0]
+
+------------------------------------------------------------------------
+
+# Exercise: Vectorization (10 minutes)
+
+> Create a vector of consecutive numbers from 1 to 100.
+
+> Note: from:to (e.g. 1:100) is the same as seq(from, to)
+
+> Compute the sum, product and mean
+
+> Sum just the numbers greater than 50 within the vector you created
+
+# Exercise solution (5 minutes)
+```{r}
+#Create a vector of consecutive numbers from 1 to 100.
+f = 1:100
+
+#Compute the sum, product and mean
+sum(f); prod(f); mean(f)
+
+#Sum just the numbers greater than 50
+f
+f>50
+f[f>50]
+sum(f[f>50])
+
+```
+
+# Functions
+
+## Key Programming Concept
+
+# Writing your own functions
+
+```{r}
+#syntax
+#Note: myfunction can be any name
+myfunction = function(arg1, arg2, ... ) {
+  statements
+  return(object)
+}
+
+#Note: objects inside the function are local to the function i.e. not defined outside. This is called variable scope
+#The concept of scope is very important in other languages, but in R, you just need to understand it with functions
+```
+
+# Function example
+
+```{r}
+printRecordRow = function(patientDatabase) {
+	#prints a row in a patient database
+	v = paste(patientDatabase[1],
+	patientDatabase[2], patientDatabase[3])
+	return(v)
+}
+
+#apply to one row
+printRecordRow(patientRecords[1,])
+#apply the printRecordRow function to all the rows of the patientRecords matrix
+apply(patientRecords, 1, printRecordRow)
+
+
+```
+
+# Why create functions?
+
+-   Organize your code – useful for larger scripts
+-   Easy to reuse code because it is more modular
+    -   Collect your own library of useful functions for easy scripting
+        later (can be stored in a separate file and included in all your
+        scripts)
+    -   More easily share code with others
+-   Maintain a central place to keep code in case you need to modify/fix
+    something
+-   Easily repeat code from different places in a single script
+-   Note: when learning R, you usually start coding without creating
+    functions and then identify frequently repeated blocks of code and
+    then turn them into functions. So you may not find a use for writing
+    your own functions until you work with R more. However, you use
+    functions all the time, so it is important to understand them.
+
+# Built in functions
+
+-   R has hundreds of built in functions
+
+```{r}
+#e.g. statistical functions
+t.test(runif(50), runif(50))
+cor.test(runif(50), runif(50), method="pearson")
+```
+
+# Exercise: Functions (10 minutes)
+
+> Practice creating a function
+
+> Create a function called mysum that sums up all the elements of a
+> vector. Note that you can simply use the sum() function within your
+> function.
+
+> Check that it gives the same results at the sum() function
+
+# Exercise solution (5 minutes)
+```{r}
+#Practice creating a function
+#Create a function called mysum that sums up all the elements of a vector
+#Check that it gives the same results at the sum() function
+
+mysum = function(arg1) {
+  return (sum(arg1))
+}
+
+v = c(1,2,3,4,5)
+mysum(v)
+sum(v)
+
+if(mysum(v) == sum(v)) {
+  print("yay, it worked!")
+}
+
+```
+
+
+# Regular expressions
+
+## Useful tool to find patterns in strings
+
+-   Regular expressions (regex) = very powerful pattern matching in
+    strings
+
+```{r}
+string = "aaabbbccc"
+#"aaa" matches
+#"abb" matches
+#"abbbb" does it match?
+
+#You’ve already been using regular expressions e.g.
+DNA = "ACGTGA"
+sub("A", "T", DNA)
+sub("GA", "CT", DNA)
+gsub("A", "T", DNA)
+
+```
+
+-   There are lots of ways to specify a pattern – it’s a mini language
+    within a language
+
+string = "aaabbbccc" "a.a" matches "aaa" . means any one character
+
+"a*b" matches* means zero or more of the previous character
+
+Example: [+-]?[0-9]+.[0-9]+ matches a number like -43.221
+
+# Regular expression quick reference
+
+| aaa               | exact pattern                                                                   |
+|----------------|--------------------------------------------------------|
+| .                 | any character                                                                   |
+| aa\|bb            | aa or bb                                                                        |
+| ()                | group a pattern e.g. (y\|n)o matches yo and no                                  |
+| []                | character set e.g. [abc] matches a single character, either a, b or c; a-z      |
+| [\^]              | not character set e.g. [\^abc] matches any single character except a, b or c    |
+| [:digit:] or \\d  | a range of standard character classes are available                             |
+| [:alpha:]         |                                                                                 |
+| \*                | 0 or more of the previous character or group                                    |
+| \+                | 1 or more                                                                       |
+| ?                 | 0 or 1                                                                          |
+| {n,m}             | a specific number of repeats (e.g. 2 to 5).                                     |
+|                   | Also {n,} = n to infinity and {n} = exactly n                                   |
+| \^                | start of string                                                                 |
+| \$                | end of string or before a \\n                                                   |
+| \\\\b             | word boundary e.g. \\bword\\b (\\B matches non word boundaries)                 |
+|                   | Also \\\< and \\\> match start and end of a word                                |
+| \\\\N             | After the regular expression is run:                                            |
+|                   | backreference the Nth pattern matched in a () (up to 9 patterns)                |
+| ignore.case=T     | case insensitive match                                                          |
+| \\\\+ \\\\\^ \\\\ | ‘escape’ a metacharacter – use a special character like + or \^ in your pattern |
+
+# Regular expression examples
+
+```{r}
+a = "sdfsabcdefghba0dsgggfe0haaabbbccc"
+#grep returns the vector index of the match
+#grepl returns TRUE if there is a match
+#regexpr returns a list, including match index and length; gregexpr returns all matches
+grep("b.d", a)
+grepl("b.d", a)
+regexpr("b.d", a)
+regexpr("b.d", a)[1]
+gregexpr("b.d", a)
+
+# b.d			  #The dot will match any character
+# b[ce]d		#the [ce] matches a single 'c' or a single 'e'.
+# b[ce]+d	  #the [ce]+ matches any number of c's & e's (at least one)
+# b[ce]*d		#the [ce]* also can match the empty string.
+# b\\sd		  #the \s matches blank or tab (so-called	'whitespace')
+# b\\s+d		#the \s+ matches any number of whitespaces (at least one) 
+# a|b+		  #what will this match?
+# (a|b)+		#and this?
+
+#Note: to run these yourself, add them to e.g. gregexpr("b.d", a), where "b.d" is the regular expression above and “a” is the string variable to search.
+
+gregexpr("b.d", a)
+
+```
+
+-   string = "Kevin Bacon"
+-   (K\|k)evin (B\|b)acon
+-   Start (\^) and end ($) of a string
+      * ^(Kevin|Bacon|Portman|Roberts)
+      * (Kevin|Bacon|Portman|Roberts)$
+    -   \^(Bacon\|Portman\|Roberts)
+-   Find all vowels
+    -   (A\|E\|I\|O\|U\|Y\|a\|e\|i\|o\|u\|y)
+    -   [AEIOUYaeiouy]
+-   How many matches?
+
+```{r}
+length(gregexpr("g", a)[[1]])
+```
+
+# Exercise: regular expressions (10 minutes)
+
+> DNA = "ACGATGATACTGATGACGGGC"
+
+> Match the regular expression "G..A" and use the results to identify
+> the actual match in the original string
+
+> Use gregexpr
+
+> attr(x, "match.length") can be used to find the match length in the
+> vector returned from gregexpr
+
+> ?substr
+
+# Exercise solution (5 minutes)
+```{r}
+
+
+
+
+```
+
+------------------------------------------------------------------------
+
+# Module 7
+
+The Book of R: chapter 7.1, 7.2 (plots), ?system2
+
+------------------------------------------------------------------------
+
+## Module 6 review
+
+-   Built in functions
+
+    -   
+
+        ```         
+        mysum = function(arg1) {
+        return (sum(arg1))
+        }
+        ```
+
+-   Regular expressions
+
+    -   b[ce]+d
+    -   b[ce]\*d
+
+------------------------------------------------------------------------
+
+# Exercise: A useful function (10 minutes)
+
+> Following on from the previous exercise where you found a string
+> matching a regular expression...
+
+> Write a function that returns all the matches of a regular expression
+> in a string
+
+> Hint: use substring (not substr) – why?
+
+> Test that the function works in the same way as in the previous
+> exercise (by searching DNA for G..A)
+
+# Exercise solution (5 minutes)
+```{r}
+
+find_matches <- function(pattern, sequence) {
+  # Use gregexpr to find all matches
+  match_positions <- gregexpr(pattern, sequence)[[1]]
+  
+  # If no matches, return an empty vector
+  if (match_positions[1] == -1) {
+    return(character(0))
+  }
+  
+  # Use substring to extract all the matches based on the positions
+  matches <- sapply(match_positions, function(pos) {
+    substring(sequence, pos, pos + attr(match_positions, "match.length")[[1]] - 1)
+  })
+  
+  return(matches)
+}
+
+# Example DNA sequence
+dna_sequence <- "GATTACAGGCGATAGCGAATCG"
+
+# Regular expression pattern to match G followed by 2 any characters and then an A
+pattern <- "G..A"
+
+# Find all matches of the pattern in the DNA sequence
+matches <- find_matches(pattern, dna_sequence)
+
+# Print the results
+print(matches)
+
+```
+
+# Interfacing with external programs
+
+-   You can call/execute an external program from within your script
+-   Helps you automate certain tasks that would be difficult for you to
+    do within R e.g. useful programs that are not available in R
+
+```{r eval=FALSE}
+system2() #calls an external command
+system2("ls")  #unix/mac
+system2("cmd.exe", input="dir")  #windows
+
+```
+
+# system2 function
+
+```{r}
+#returns stdout in variable v
+v = system2("ls", stdout=T)
+v
+
+#passes arguments to the command (ls)
+v = system2("ls", args="-la", stdout=T)
+v
+
+```
+
+-   What's wrong with system()?
+    -   It works, but is older and not recommended
+
+# Exercise: external programs (10 minutes)
+
+> Write a script to call a system command
+
+-   Mac/unix users
+    -   Run the “df –h” UNIX command from the shell – what does it do?
+    -   Call “df -h” from R to see how much space is left on your hard
+        drive
+    -   Check your results against the “df -h” command you ran
+    -   Note: "df" is the command name. "-h" are the arguments to that
+        command, and not part of the command name.
+-   Windows users
+    -   Try to run windows "time" or "dir" commands
+    -   E.g. system2("cmd.exe", input="dir")
+    -   Can also try shell("dir")
+
+# Exercise solution (5 minutes)
+```{r}
+system2() #calls an external command
+system2("ls")  #unix/mac
+
+```
+
+# Recipes
+
+## Code examples and templates
+
+-   Recipes are standard way to do things
+    -   Look up the recipes in a cookbook
+
+# look at recipebookTOC.png image in "R notebook extra files" directory
+
+# Example recipes
+
+```{r eval=FALSE}
+#Sorting a data frame
+df = df[order(df$key) , ]
+#df$key is the column to sort by
+#Note: the sort() function only works for vectors, not data frames
+
+#Sorting by two columns
+df = df[order(df$key1,df$key2) , ] 
+#The second key is used to break ties in the first
+
+#Removing elements from a list
+#Set the value to be NULL
+```
+
+# Stack Overflow
+
+-   User-contributed question and answer website – good free source of
+    recipes
+-   e.g. How to delete multiple values from a vector?
+    -   <https://stackoverflow.com/questions/9665984/how-to-delete-multiple-values-from-a-vector>
+    -   <https://stackoverflow.com/>
+
+# Plots
+
+## Graphically plotting/charting data
+
+# Introduction to plots
+
+```{r}
+#R has powerful data plotting abilities
+hist(runif(50))
+plot(sort(runif(50)))
+plot(runif(50), runif(50)) #x,y scatter plot
+boxplot(runif(50))
+demo(graphics)
+```
+
+# Exercise: plots (10 minutes)
+
+> Create a matrix “randomdata” with 50 rows and 10 columns using
+> "replicate(10,rnorm(50))"
+
+> Plot the first and second columns of the matrix in a scatter plot
+
+> Generate a vector “randommeans” with the means of all columns of
+> randomdata. Also generate a vector “randomsds” with the standard
+> deviations of all columns of randomdata
+
+> Generate a boxplot of the first and second columns of randomdata
+
+# Exercise solution (5 minutes)
+```{r}
+# Create a matrix “randomdata” with 50 rows and 10 columns using "replicate(10, rnorm(50))"
+randomdata <- replicate(10, rnorm(50))
+
+# Plot the first and second columns of the matrix in a scatter plot
+plot(randomdata[, 1], randomdata[, 2])
+    
+# Generate a vector “randommeans” with the means of all columns of randomdata
+# Generate a vector “randomsds” with the standard deviations of all columns of randomdata
+# Calculate the means of all columns
+randommeans <- apply(randomdata, 2, mean)
+randomsds <- apply(randomdata, 2, sd)
+print(randommeans)
+print(randomsds)
+
+# Generate a boxplot of the first and second columns of randomdata
+boxplot(randomdata[, 1], randomdata[, 2])
+
+```
+
+------------------------------------------------------------------------
+
+# Module 8
+
+The Book of R: Appendix A (packages)
+
+------------------------------------------------------------------------
+
+## Module 7 review
+
+-   External programs
+    -   system2
+-   Recipes
+-   Introduction to plots
+    -   plot(runif(50), runif(50)) #x,y scatter plot
+    -   boxplot(runif(50))
+
+------------------------------------------------------------------------
+
+# Packages
+
+## Key R concept
+
+-   A place to store a set of functions
+-   Can create a library of functions
+-   Easily import the functions (and data) into R by installing the \*
+    package
+-   Packages are available online in package repositories
+    -   The Comprehensive R Archive Network (CRAN) -
+        <https://cran.r-project.org/>
+    -   Bioconductor - <https://www.bioconductor.org/>
+-   Note: similar to functions, you may not create your own package
+    right away, but you need to understand what they are.
+
+# Installing packages
+
+```{r eval=FALSE}
+
+# This downloads the package to your computer
+# Permanent download – you only need to do this once
+# select a mirror – choose someplace close (faster internet connection), or just the first one
+install.packages("ggplot2")
+
+# This loads the package so you can use it
+# Need to do this each time you restart R
+# Sometimes other packages that this package needs will automatically be downloaded – could take time.
+library(ggplot2)
+
+#now we can use the functions in the package
+ggplot(iris, aes(x = Sepal.Length, fill = Species)) + geom_density(alpha = .3)
+
+```
+
+# Package management
+
+```{r eval=FALSE}
+#List all installed packages
+installed.packages()
+
+#uninstall a package
+#e.g. remove.packages(ggplot2)
+#remove.packages(pkgs, lib)
+
+#Lists packages that could be updated
+old.packages()
+
+#Update all old packages
+#R will likely ask you questions about which versions to install
+update.packages()
+
+```
+
+# Package documentation
+
+-   Website
+    -   <https://cran.r-project.org/web/packages/kinship2/index.html>
+-   Vignette
+    -   PDF file taking you through an example of the package
+        functionality that you can follow
+    -   The first documentation you should review for any package
+
+# Example: kinship2 package
+
+```{r eval=FALSE}
+install.packages("kinship2")
+library(kinship2)
+data(sample.ped) #load sample data
+head(sample.ped)
+pedAll = pedigree(id=sample.ped$id, dadid=sample.ped$father, momid=sample.ped$mother, sex=sample.ped$sex, famid=sample.ped$ped)
+ped2basic <- pedAll['2']
+plot(ped2basic)
+df2 <- sample.ped[sample.ped$ped==2,]
+id2 <- paste(df2$id, c("John", "Linda", "Jack", "Rachel", "Joe", "Deb", "Lucy", "Ken", "Barb", "Mike", "Matt", "Mindy", "Mark", "George"), sep="\n")
+plot(ped2basic, col=ifelse(df2$avail, 2, 1), id=id2)
+```
+
+# Bioconductor
+
+-   Over 1000 bioinformatics packages
+
+-   Gene expression
+
+    -   Import Affymetrix, Illumina, Nimblegen, Agilent, and other
+        platforms. Perform quality assessment, normalization,
+        differential expression, clustering, classification, gene set
+        enrichment, genetical genomics and other workflows for
+        expression, exon, copy number, SNP, methylation and other
+        assays. Access GEO, ArrayExpress, Biomart, UCSC, and other
+        community resources.
+
+-   High Throughput Assays
+
+    -   Import, transform, edit, analyze and visualize flow cytometric,
+        mass spec, HTqPCR, cell-based, and other assays.
+
+-   Sequence Data
+
+    -   Import fasta, fastq, ELAND, MAQ, BWA, Bowtie, BAM, gff, bed,
+        wig, and other sequence formats. Trim, transform, align, and
+        manipulate sequences. Perform quality assessment, ChIP-seq,
+        differential expression, RNA-seq, and other workflows. Access
+        the Sequence Read Archive.
+
+-   Annotation
+
+    -   Use microarray probe, gene, pathway, gene ontology, homology and
+        other annotations. Access GO, KEGG, NCBI, Biomart, UCSC, vendor,
+        and other sources.
+
+# Creating your own package
+
+```{r eval=FALSE}
+#Install needed packages
+install.packages("devtools")
+library("devtools")
+install.packages("roxygen2")
+library(roxygen2)
+
+#Create a directory for your package
+#setwd("parent_directory")
+#Create the directory 'mypackage' inside of 'parent_directory'
+create("mypackage")
+
+```
+
+-   Save functions in a file in:
+    -   parent_directory/mypackage/R
+    -   Example – copy the following files into this folder
+        -   lengthfunction.r
+        -   regexfunction.r
+    -   Can also save each function as a separate file for
+        organizational purposes
+-   Write documentation
+    -   Edit DESCRIPTION text file
+    -   Write documentation for each function using
+        -   <https://cran.r-project.org/web/packages/roxygen2/>
+
+```{r}
+#Function documentation example
+#' The length of a string (in characters).
+#'
+#' @param string input character vector
+#' @return numeric vector giving number of characters in each element of the
+#'   character vector.  Missing strings have missing length.
+#' @seealso \code{\link{nchar}} which this function wraps
+#' @export
+#' @examples
+#' str_length(letters)
+#' str_length(c("i", "like", "programming", NA))
+str_length <- function(string) {
+  string <- check_string(string)
+  nc <- nchar(string, allowNA = TRUE)
+  is.na(nc) <- is.na(string)
+  nc
+}
+
+```
+
+```{r eval=FALSE}
+#note: setwd resets if you run it just one line at a time. You need to run the whole chunk all at once.
+
+#Generate the documentation files
+setwd("./mypackage")  #(your package directory)
+document()
+#Install your package
+setwd("..")   #(go to parent directory)
+install("mypackage")
+#R copies your package to an internal directory
+#Load (or activate) your package
+library(mypackage)
+
+```
+
+```{r eval=FALSE}
+#Check that your package is working
+help(package=mypackage)
+ls("package:mypackage")
+DNA = "ACACGTACTGATCGGGATATTAG"
+allMatchingStrings("A.A", DNA)
+str_length(DNA)
+
+```
+
+# Exercise: Bioconductor package (10 minutes)
+
+> Gene expression analysis example
+
+> Notes on this exercise and the next: -the goal of these exercises is
+> to show you how to do something useful with genomics data using a
+> bioconductor package. A microarray data set was selected due to its
+> small data size. It may be worthwhile reading about DNA microarray
+> gene expression data at
+> <https://en.wikipedia.org/wiki/DNA_microarray>. This technology is a
+> precursor to RNA-seq that was very popular from around 2000 for around
+> a decade. It is still used in many specialized application areas.
+> -this also tests that you can install an R package, which ideally is
+> smooth, but unfortunately can be filled with technical challenges.
+> WARNING: installing packages can require a lot of downloaded data and
+> can be time consuming, so you may want to try this out before the
+> lecture.
+
+> Go to: <http://www.ncbi.nlm.nih.gov/geo/query/acc.cgi?acc=GSE13924>
+
+> Download cel files (2.2MB) (2 arrays)
+
+> cel files are gene expression microarray scanned image files
+
+> From "Global transcriptional response of Saccharomyces cerevisiae
+> following the deletion of succinate dehydrogenase" (selected because
+> it is small)
+
+> Identified using the following search of GEO:
+> <http://www.ncbi.nlm.nih.gov/gds> with “GPL90[ACCN] AND gse[ETYP] AND
+> cel[suppFile]” – sort from smallest to largest, download the smallest
+> experiment (2 arrays)
+
+> Install the affy package
+
+```{r}
+if (!requireNamespace("BiocManager", quietly = TRUE))
+    install.packages("BiocManager")
+BiocManager::install()
+#Note: if you have problems installing, make sure you have the latest version of R
+
+```
+
+```{r eval=FALSE}
+#Review the following code and run it, command by command
+
+#install the affy package
+BiocManager::install(c("affy"))
+
+#load the "affy" add-on package
+library(affy)
+
+#set the working directory to where the Affymetrix .cel files are
+#setwd("your working directory")
+
+#loads all .cel files in a directory
+Data <- ReadAffy()
+Data
+
+#what do the data distributions look like?
+boxplot(Data)
+
+hist(Data[,1:2])
+
+
+#Check out what the cel images look like
+par(mfrow=c(1,2))
+image(Data)
+
+#perform probe quality analysis
+deg=AffyRNAdeg(Data)
+names(deg)
+summaryAffyRNAdeg(deg)
+plotAffyRNAdeg(deg)
+
+#Correct background and normalize, log2 values result
+eset <- rma(Data)
+eset
+
+#save the results - normalized expression data
+write.exprs(eset, file="mydata.txt")
+
+#view the expression data in different ways
+par(mfrow=c(1,1))
+exprs(eset)
+boxplot(exprs(eset))
+hist(exprs(eset))
+featureNames(eset)
+exprs(eset[1,c(1,2)])
+
+#compute the log fold change
+logFoldChange = exprs(eset[,1])-exprs(eset[,2])
+
+#explore the fold change distributions
+hist(logFoldChange)
+plot(logFoldChange)
+plot(sort(logFoldChange))
+
+#plot heatmap of first 100 probes
+heatmap(exprs(eset[1:100,]))
+
+
+#find the most differentially expressed probes
+rownames(logFoldChange)[logFoldChange>4]
+length(rownames(logFoldChange)[logFoldChange>3])
+
+#save the results be loaded into another program e.g. a spreadsheet
+write.table(logFoldChange, file="test.txt", sep="\t")
+
+```
+
+# Exercise solution (5 minutes)
+
+# Exercise: Gene expression and R practice (10 minutes)
+
+> Rather than following existing code, now you can try to write your own
+> code to use package functions.
+
+> Based on the gene expression array data explored in the previous
+> exercise:
+
+> Plot normalized expression values from both arrays against each other
+
+> Compare the boxplots of both arrays
+
+> Compare the histograms of both arrays
+
+> What percentage of probe sets (genes) are under-expressed in the fold
+> change table?
+
+# Exercise solution (5 minutes)
+```{r}
+#loads all .cel files in a directory
+Data <- ReadAffy()
+Data
+
+#what do the data distributions look like?
+boxplot(Data)
+
+hist(Data[,1:2])
+
+
+#Check out what the cel images look like
+par(mfrow=c(1,2))
+image(Data)
+
+#perform probe quality analysis
+deg=AffyRNAdeg(Data)
+names(deg)
+summaryAffyRNAdeg(deg)
+plotAffyRNAdeg(deg)
+
+#Correct background and normalize, log2 values result
+eset <- rma(Data)
+eset
+
+#save the results - normalized expression data
+write.exprs(eset, file="mydata.txt")
+
+#view the expression data in different ways
+par(mfrow=c(1,1))
+exprs(eset)
+boxplot(exprs(eset))
+hist(exprs(eset))
+featureNames(eset)
+exprs(eset[1,c(1,2)])
+
+#compute the log fold change
+logFoldChange = exprs(eset[,1])-exprs(eset[,2])
+
+#explore the fold change distributions
+hist(logFoldChange)
+plot(logFoldChange)
+plot(sort(logFoldChange))
+
+#plot heatmap of first 100 probes
+heatmap(exprs(eset[1:100,]))
+
+#Plot normalized expression values from both arrays against each other
+
+#Compare the boxplots of both arrays
+boxplot(Data[,1:2])
+
+#Compare the histograms of both arrays
+histograms(Data[,1:2])
+
+#find the most differentially expressed probes
+rownames(logFoldChange)[logFoldChange>4]
+length(rownames(logFoldChange)[logFoldChange>3]) #yang yeast di assignment3 mungkin ini
+
+#save the results be loaded into another program e.g. a spreadsheet
+write.table(logFoldChange, file="test.txt", sep="\t")
+
+```
+
+------------------------------------------------------------------------
+
+# Module 9
+
+The Book of R: Chapter 7 (plotting)
+
+------------------------------------------------------------------------
+
+## Module 8 review
+
+-   Packages
+    -   Installing
+        -   install.packages("kinship2")
+        -   library(kinship2)
+    -   Creating your own package
+-   Bioconductor
+    -   rich source of bioinformatics packages
+
+------------------------------------------------------------------------
+
+# Motivating idea: The reproducible paper
+
+-   Journals are moving towards fully reproducible papers, where R code
+    behind each figure is available for anyone to play with
+
+<https://elifesciences.org/articles/52258/executable>
+
+-   Plotting in R is very powerful, but takes some getting used to
+
+# The built in R plot() command
+
+```{r}
+
+### Using R's built in plot command
+plot(c(1,2,3))
+plot(c(1,2,3), c(2,3,4))
+
+#cosine curve
+x=seq(from = 0, to = 20, by = 0.05)
+x=cos(x)
+plot(x)
+
+#plot options
+
+#type: plot type e.g. lines connecting data points
+#main, xlab, ylab: title, x and y axis labels
+#col: colour options
+#pch: point style
+#cex: point size
+#lty: line style
+#lwd: line width
+#xlim, ylim: x and y axis range
+
+#adding a title
+plot(c(1,2,3), c(2,3,4), main="My plot")
+
+#adding labels
+plot(c(1,2,3), c(2,3,4), xlab="points 1", ylab="points 2")
+
+#colours
+colors()  #shows all the colours defined by default in R
+
+plot(c(1,2,3), c(2,3,4), col = "red")
+
+#point style
+plot(c(1,2,3), c(2,3,4), pch = 19)
+plot(c(1,2,3), c(2,3,4), pch = 19, cex = 2)  #point size
+
+# Many point styles available
+# http://www.endmemo.com/program/R/pchsymbols.php
+
+#line style
+plot(c(1,2,3), c(2,3,4), type = "l")  #line plot
+plot(c(1,2,3), c(2,3,4), type = "b")  #line + points
+plot(c(1,2,3), c(2,3,4), type = "o")  #plot points on top of the line
+
+#lty can range from 1 to 6
+plot(c(1,2,3), c(2,3,4), type = "o", lty = 1)
+plot(c(1,2,3), c(2,3,4), type = "o", lty = 2)
+plot(c(1,2,3), c(2,3,4), type = "o", lty = 1, lwd = 3)
+
+#axis range
+#normally R sets the range automatically, but you can set it manually
+plot(c(1,2,3), c(2,3,4), xlim = c(0,5))
+
+```
+
+# Combining parameters to create an advanced plot
+
+```{r}
+{ #note: in notebooks, the regular plot window is not used, thus is not active. When legend is called, it will not know where the plot is, so surround code with {} to group all the commands together into one command
+
+# Colour and point style
+cols  <- c(rep('red',50), rep('blue',50), rep('green',50))
+types <- c(rep(1, 50), rep(2, 50), rep(3, 50))
+
+plot(iris$Petal.Length, iris$Petal.Width,
+main='Iris Petal Variability',
+xlab='Petal Length (cm)', ylab='Petal Width (cm)',
+col=cols, pch=types, cex.axis=1.5, cex.lab=1.5
+)
+
+# Adding a legend
+legend('topleft', legend=c('I. setosa', 'I. versicolor', 'I. virginica'), col=c('red', 'blue', 'green'), pch=c(1,2,3))
+}
+```
+
+# Building a plot in stages
+
+```{r}
+#R creates a new plot with each call to plot(). Other functions allow you to add plot components to an existing plot
+
+x = 1:10
+y = 10:1
+
+{
+plot(x,y, type = "n") #type n means empty plot
+
+#abline() adds straight lines
+abline(h=c(2.5,3,3.5), lty=2, lwd=2)  #adds horizontal dashed lines
+
+#add points
+points(x[y>5],y[y>5], col = "red", pch = 3)
+points(x[y<=5],y[y<=5], col = "blue")
+
+#add line
+lines(x,y)
+}
+
+#remember: if you build a plot in stages in a notebook, you need to surround the code block with {}
+
+#you can add a legend using legend() as in the previous example
+
+```
+
+# Exercise: Create a simple plot (10 minutes)
+
+-   Plot a quadratic curve including numbers from -50 to 50. Make the
+    negative x numbers red and the positive x numbers blue, with zero x
+    value a purple, filled in point. Build the plot in stages.
+
+Hint:create the curve using e.g. x = -50:50 y = x\^2
+
+# Exercise solution (5 minutes)
+```{r}
+# create plot
+x <- -50:50
+y <- x^2
+plot(x, y) # test that the quadratic plot is working
+
+plot(x, y, type = 'n', xlab = 'x', ylab = 'y = x^2', main = 'quadratic curve')
+
+# negative numbers x red
+points(x[x < 0], y[x < 0], col = 'red')
+# positive numbers x blue
+points(x[x > 0], y[x > 0], col = 'blue')
+# zero x value a purple ?????
+# points(x, y, col = 'purple')
+points(x[y<=0],y[y<=0], col = "purple")
+
+```
+
+
+# Exploring other plot types
+
+```{r eval=FALSE}
+# Read.table yeast_properties.txt (examine the file in a spreadsheet)
+{ #remember to set your working directory to find the "yeast_properties.txt" file
+  # setwd("")
+  yeastdata<-read.table("yeast_properties.txt", header=TRUE)
+}
+smoothScatter(yeastdata[,"dnds"], log(yeastdata[,"Degree"]))
+
+#the par() command supports many graphical parameter settings.
+
+#putting two plots side by side
+{
+par(mfrow=c(1,2))  #2 plots in 1 row
+plot(yeastdata[,"dnds"], log(yeastdata[,"Degree"]))
+smoothScatter(yeastdata[,"dnds"], log(yeastdata[,"Degree"]))
+par(mfrow=c(1,1))  #back to 1 plot in 1 row (more useful in the R console)
+}
+```
+
+# Example: lattice plot package
+
+#Older package that is not in use very much anymore, but illustrates
+simply how to add plotting functionality to R using a package
+
+```{r eval=FALSE}
+# http://cran.r-project.org/web/packages/lattice/index.html
+install.packages('lattice')  #installs from CRAN
+library(lattice)
+```
+
+```{r eval=FALSE}
+xyplot(yeastdata[,"dnds"] ~ log(yeastdata[,"Degree"]) | Age, data=yeastdata )
+```
+
+# ggplot2 package - the grammar of graphics
+
+```{r eval=FALSE}
+# https://ggplot2.tidyverse.org/
+# https://ggplot2.tidyverse.org/reference/index.html
+
+install.packages("ggplot2")
+library(ggplot2)
+```
+
+```{r eval=FALSE}
+
+#quick plot
+plot(1:10, 10:1)
+qplot(1:10, 10:1)  #notice that ggplot2 looks nicer by default
+qplot(1:10, 10:1) + geom_line()  #add a line
+qplot(1:10, 10:1) + geom_line(color="red", size=2, linetype=2)  #customize the line style
+
+
+#and the more powerful ggplot command
+ggplot(data=yeastdata, aes(x=yeastdata[,"dnds"], y=yeastdata[,"Degree"])) + 
+geom_point() + 
+scale_y_log10() + 
+xlab("dN/dS") + 
+ylab("Degree")   #note the style: separate each command on its own line to make it easier to read
+
+#as you can see, ggplot is more intuitive for building a plot in layers
+# you can search more about ggplot
+
+```
+
+# Circos plots #this library used in genomics
+
+```{r eval=FALSE}
+#https://cran.r-project.org/web/packages/RCircos/index.html
+
+install.packages("RCircos")
+library(RCircos)
+```
+
+```{r eval=FALSE }
+#test circos plot
+RCircos.Workflow()
+
+data(UCSC.HG19.Human.CytoBandIdeogram)
+cyto.info <- UCSC.HG19.Human.CytoBandIdeogram
+
+{
+RCircos.Set.Core.Components(cyto.info, chr.exclude=NULL, 10, 0)
+
+RCircos.Set.Plot.Area()
+
+RCircos.Chromosome.Ideogram.Plot()
+}
+
+```
+
+# Exercise: Fun with plotting in R (10 minutes)
+
+> Create a 3D scatter plot of dnds, log(degree) and cai from the yeast
+> data table Try using the “highlight.3d” parameter
+
+> Hint: install.packages("scatterplot3d") library(scatterplot3d)
+
+# Exercise solution (5 minutes)
+```{r}
+
+install.packages("scatterplot3d")
+library(scatterplot3d)
+scatterplot3d(yeastdata[,"dnds"], log(yeastdata[,"Degree"]), yeastdata[,"cai"], highlight.3d = TRUE, pch = 20)
+
+
+```
+

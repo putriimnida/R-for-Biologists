@@ -1,0 +1,547 @@
+---
+title: "Tutorial_23Sep2024"
+author: "Yin Chen Wan"
+date: "2024-09-21"
+output:
+  pdf_document: default
+  html_document: default
+editor_options:
+  markdown:
+    wrap: 72
+---
+
+# Tutorial
+
+## Some super basic recap
+
+### Vector
+
+Accessing the vector content: vector[position number]:
+
+```{r vector}
+words <- c("one", "two", "three", "four", "five")
+words
+
+#Accessing each element
+words[1]
+words[2]
+words[3]
+words[4]
+words[5]
+
+#Accessing more than 1 element
+words[1:3]
+words[3:5]
+
+#Putting stuff in vector (e.g. what if I want a vector with "one", "two", "three", "five"?)
+#words[1:3, 5] #error #exceeds the dimension
+words[1:3]
+words[5]
+c(words[1:3], words[5]) #try running the functions inside individually
+one_two_three_five <- c(words[1:3], words[5])
+one_two_three_five_four <- c(one_two_three_five, words[4])
+
+```
+
+### Data Frame
+
+Since "gene_condition_source_id.txt" file is so big, I will use a small
+section of it as an example:
+
+```{r data frame}
+#Read the "gene_condition_source_id.txt" file
+dataFrame = read.table("gene_condition_source_id.txt", header=TRUE, sep="\t", fill=T, comment.char = "", quote = "")
+
+#Look at the top few rows
+head(dataFrame)
+
+#save the top few rows as an example we will run
+dataFrame_head <- head(dataFrame)
+
+```
+
+Accessing the data frame content: dataframe[row number, column number]:
+*Tip is to keep checking the table itself*
+
+```{r data frame access cell}
+#Accessing each cell/element
+dataFrame_head[1,1] #row 1, column 1
+
+#going through each row of column 1
+dataFrame_head[1,1]
+dataFrame_head[2,1]
+dataFrame_head[3,1]
+dataFrame_head[4,1]
+dataFrame_head[5,1]
+dataFrame_head[6,1]
+#now play with column 2, 3...
+
+#going through each column of row 1
+dataFrame_head[1,1]
+dataFrame_head[1,2]
+dataFrame_head[1,3]
+dataFrame_head[1,4]
+dataFrame_head[1,5]
+dataFrame_head[1,6]
+dataFrame_head[1,7]
+dataFrame_head[1,8]
+dataFrame_head[1,9]
+dataFrame_head[1,10] #Oops, there are only 9 columns!
+#now play with column 2, 3... 
+```
+
+Accessing data frame entire row/column:
+
+```{r  data frame access row/column}
+#Accessing row
+dataFrame_head[1, ]
+dataFrame_head[2, ]
+dataFrame_head[3, ]
+
+#Accessing column
+dataFrame_head[, 9]
+dataFrame_head[, 2]
+dataFrame_head[, 5]
+
+#Accessing column by column name 'S'
+dataFrame_head$AssociatedGenes
+dataFrame_head$SourceName
+
+```
+
+### Comparison operators
+
+```         
+<           less than
+<=          less than or equal to
+>           greater than
+>=          greater than or equal to
+==          exactly equal to
+!=          not equal to
+!x          not x
+x | y       x OR y
+x & y       x AND y e.g. if((x != 3) & (x > 0))
+```
+
+#### Comparison operators examples.
+
+Vectors:
+
+```{r vector comparison operators}
+words <- c("one", "two", "three", "four", "five")
+words == ("four")
+words[words == ("four")]
+
+numbers <- runif(30, min = 0, max = 50)
+numbers > 19
+numbers[numbers > 19]
+```
+
+Data frames:
+
+```{r data frame comparison operators}
+dataFrame_head$AssociatedGenes == "AAGAB"
+dataFrame_head$AssociatedGenes[dataFrame_head$AssociatedGenes == "AAGAB"]
+dataFrame_head$AssociatedGenes[dataFrame_head$AssociatedGenes == "TP53"]
+```
+
+Data frame example: How many diseases associated with AARS1?
+
+```{r data frame comparson operators example}
+dataFrame_head$AssociatedGenes == "AARS1"
+dataFrame_head$AssociatedGenes[dataFrame_head$AssociatedGenes == "AARS1"]
+dataFrame_head$DiseaseName[dataFrame_head$AssociatedGenes == "AARS1"]
+```
+
+## If else statements
+
+if (a condition is met) { do something }
+
+Example 1 using only "if":
+
+```{r if else example 1}
+pH <- 10
+
+if (pH < 7) {
+  print("acidic")
+}
+
+if (pH == 7) {
+  print("neutral")
+}
+
+if (pH > 7) {
+  print("basic")
+}
+```
+
+Example 2 using "if" and "else:
+
+```{r if else example 2}
+pH <- 8
+
+if (pH < 7) {
+  print("acidic")
+} else if (pH == 7) {
+  print("neutral")
+} else {
+  print("basic")
+}
+```
+
+## For loops
+
+for (element in (a series of something)) { do something }
+
+*You need to know how many iterations beforehand*
+
+Super break down of a for loop using an example:
+
+```{r for loop example 0}
+words <- c("one", "two", "three", "four", "five")
+
+i=1
+words[i]
+
+i=2
+words[i]
+
+i=3
+words[i]
+
+i=4
+words[i]
+
+i=5
+words[i]
+
+for (i in 1:length(words)) {
+  print(i)
+  print(words[i])
+}
+
+```
+
+For loop example 1 (vector): Add one to every element in a vector
+
+```{r for loop example 1}
+numbers <- 100:120
+
+#First make sure you are looping fine
+for (each_number in 1:length(numbers)) {
+  print(each_number)
+}
+
+for (i in 1:length(numbers)) {
+  print(i)
+}
+
+for (i in 1:length(numbers)) {
+  print(numbers[i])
+}
+
+#Now 'do something'
+for (i in 1:length(numbers)) {
+  print(numbers[i]+1)
+}
+
+for (i in 1:length(numbers)) {
+  added1 <- (numbers[i]) +1
+  print(added1)
+}
+
+#try something else! E.g. add 2 to every element etc.
+for (i in 1:length(numbers)) {
+  print(numbers[i]+2)
+}
+
+for (i in 1:length(numbers)) {
+  added2 <- (numbers[i]) +2
+  print(added2)
+}
+
+#Easily check your answers with vectorisation
+numbers+1
+```
+
+For loop example 2 (looping through the rows of a data frame): What are
+the associated diseases in the data frame?
+
+```{r for loop example 2}
+#First make sure you are looping fine
+for (i in 1:nrow(dataFrame_head)) {
+  print(i)
+}
+
+#Looping through the rows of the associated diseases column
+for (i in 1:nrow(dataFrame_head)) {
+  print(dataFrame_head[i, 5])
+}
+
+for (i in 1:nrow(dataFrame_head)) {
+  print(dataFrame_head$DiseaseName[i])
+}
+
+#Easily check answer
+dataFrame_head$DiseaseName
+```
+
+## While loops
+
+counter = 1 for (a condition) { do something
+
+counter= counter+1 }
+
+# +1 so that it can move forward
+
+Super break down of a loop using an example:
+
+```{r while loop example 0}
+words <- c("one", "two", "three", "four", "five")
+
+i=1
+words[i]
+
+i=2
+words[i]
+
+i=3
+words[i]
+
+i=4
+words[i]
+
+i=5
+words[i]
+
+i=1
+while (i<6) {
+  print(i)
+  
+  i=i+1 #remove and see what happens if you don't add to the counter?
+} 
+
+i=1
+while (i<6) { 
+  print(i)
+  print(words[i])
+  
+  i=i+1
+}
+#what if you set more than length of vector?
+#vector only has 5 elements, so if it's more than 5 then it will be error
+```
+
+While loop example 1 (vector): Add one to every element in vector For
+loop example 1 (vector): Add one to every element in a vector
+
+```{r while loop example 1}
+numbers <- 100:120
+
+#First make sure you are looping fine
+i=1
+while (i<21) {
+  print(i)
+  
+  i=i+1
+}
+
+
+i=1
+while (i<21) {
+  print(numbers[i])
+  
+  i=i+1
+}
+
+#Now 'do something'
+for (i in 1:length(numbers)) {
+  print(numbers[i]+1)
+}
+#try something else! E.g. add 2 to every element etc.
+
+#Easily check your answers with vectorisation
+numbers+1
+```
+
+While loop example 2 (how to loop through more than 1 at a time): Here
+are the temperatures of 28 days (1 month/ 4 weeks). What is the average
+temperature per week? \# kindly look like the assignement
+
+```{r while loop monthly temp example}
+monthly_temp <- runif(28, min=0, max = 40)
+monthly_temp
+```
+
+Instead of looping through every single number, you loop through every
+seven days
+
+```{r while loop example 2}
+#want to get every 7 days in 1 iteration
+
+#first week
+i=1
+first_week <- monthly_temp[i: (i+7)]
+first_week
+length(first_week)
+
+first_week <- monthly_temp[i: (i+6)]
+length(first_week)
+mean(first_week)
+
+#2nd week
+i=8
+second_week <- monthly_temp[i: (i+6)]
+length(second_week)
+mean(second_week)
+
+#3rd week
+i=15
+third_week <- monthly_temp[i: (i+6)]
+length(third_week)
+mean(third_week)
+#what code is changing and what code is the same?
+
+#First make sure you are looping fine
+i=1
+while (i<29) {
+  print(i)
+  
+  i=i+7 #the difference between every iteration is 7 days
+}
+
+
+#now that the loop is working, enter what your task
+i=1
+while (i<29) {
+  print(i)
+  week <- monthly_temp[i: (i+6)]
+  print(week)
+  print(length(week))
+  print(mean(week))
+  i=i+7 #the difference between every iteration is 7 days
+}
+```
+
+What if I want to put all averages into a vector? vector \<- c(vector,
+things_to_put_in)
+
+```{r appending loop output into a vector}
+avg_temp <- c() #create an empty vector to put the average temperature in
+
+#1st week
+i=1
+first_week <- monthly_temp[i: (i+6)]
+avg_temp <- c(avg_temp, mean(first_week))
+avg_temp
+
+#2nd week
+i=8
+second_week <- monthly_temp[i: (i+6)]
+avg_temp <- c(avg_temp, mean(second_week))
+avg_temp
+
+#3rd week
+i=15
+third_week <- monthly_temp[i: (i+6)]
+avg_temp <- c(avg_temp, mean(third_week))
+avg_temp
+#what code is changing and what code is the same?
+
+avg_temp <- c() 
+i=1
+while (i<29) {
+  week <- monthly_temp[i: (i+6)]
+  avg_temp <- c(avg_temp, mean(week))
+  
+  i=i+7 #the difference between every iteration is 7 days
+}
+avg_temp
+```
+
+## Putting if else staments into a loop
+
+for (element in (a series of something)) { if (a condition is met) { do
+something } else { do something } }
+
+*Make sure the if else statement is working first!* if else statement in
+a while loop example: Here are the temperatures of 28 days (1 month/ 4
+weeks). How is the weather for each week? Assuming temperatures less
+than 10 are cold, temperatures between 10-20 is warm, and temperatures
+above 20 is hot. *live coding example*
+
+```{r while loop with if/else statement}
+# Example of monthly temperatures (just dummy data for 28 days)
+monthly_temp <- c(15, 12, 10, 13, 17, 19, 14, 22, 23, 25, 20, 21, 18, 19, 
+                  16, 14, 13, 12, 10, 9, 8, 7, 6, 5, 4, 3, 2, 1)
+
+# 1st week
+i = 1
+first_week <- monthly_temp[i:(i+6)]
+weather <- mean(first_week)
+
+if (weather < 10) {
+  print("cold")
+} else if (weather > 20) {
+  print("hot")
+} else {
+  print("warm")
+}
+
+# 2nd week
+i = 8
+second_week <- monthly_temp[i:(i+6)]  # Adjust this to cover days 8 to 14
+weather <- mean(second_week)
+
+if (weather < 10) {
+  print("cold")
+} else if (weather > 20) {
+  print("hot")
+} else {
+  print("warm")
+}
+
+# 3rd week
+i = 15
+third_week <- monthly_temp[i:(i+6)]  # Adjust this to cover days 15 to 21
+weather <- mean(third_week)
+
+if (weather < 10) {
+  print("cold")
+} else if (weather > 20) {
+  print("hot")
+} else {
+  print("warm")
+}
+
+# 4th week
+i = 22
+fourth_week <- monthly_temp[i:(i+6)]  # Adjust this to cover days 22 to 28
+weather <- mean(fourth_week)
+
+if (weather < 10) {
+  print("cold")
+} else if (weather > 20) {
+  print("hot")
+} else {
+  print("warm")
+}
+
+#we have a partial code for this (see R chunk above)
+#live coding example
+```
+
+### TIPS
+
+**1. Write out the code for the first few iterations** Check that your
+task is working. Identify what parts are the same and what parts are
+changing.
+
+**2. Check your looping is okay.**
+
+for (i in 1:vector) { print(i) } *Make sure i is going in an order you
+expect*
+
+**3. Replace the content in loop with your if else statement**
+
+Make sure the statement is accepting input from the loop
